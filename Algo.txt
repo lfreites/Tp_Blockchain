@@ -1,1 +1,83 @@
 Aca vamos poniendo aclaraciones, o comentarios sobre lo que vamos haciendo en el codigo.
+
+
+
+Bloque:
+
+prev_block	(por defecto todo completo de 1s)
+txns_hash 	(hash de todas las transacciones del boque)
+bits		(dificultad requerida)
+nonce		(valor entero positivo a modificar hasta pegarla con la dificultad)
+txn count	(valor entero positivo correspondiente a CANTIDAD DE TRANSACCIONES DEL BLOQUE)
+transaccion1
+transaccion2
+transaccion3
+transaccion4
+.
+.
+.
+(hasta 6 + txn_count)
+
+
+//Estructuras básicas Algochain
+
+
+typedef struct bloque{
+	header_t header;
+	body_t body;
+}bloque_t;
+
+
+typedef struct header{
+	unsigned long prev_block;	//hash del bloque anterior en la blockchain ( = SHA256(SHA256(bloque anterior)) )
+	unsigned long txns_hash;	//hash de todas las transacciones incluidas en el bloque de este header
+	int bits;					//dificultad (cantidad de 0s necesarios)
+	string nonce;
+}header_t;
+//prev_block se inicializa en ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+typedef struct body{
+	size_t tnxs_count;			//cantidad de transacciones del bloque
+	transaccion_t *tnxs;		//secuencia con dichas transacciones
+}body_t;
+
+typedef struct transaccion{
+	size_t n_tx_in;
+	input_t *inputs;
+	size_t n_tx_out;
+	output_t *outputs;
+}transaccion_t;
+//Esto en realidad sería el formato del archivo, repetido tantas veces como transacciones almacene
+
+typedef struct output{
+	int value;
+	hash_t addr;	
+}output_t;
+
+typedef struct input{
+	outpoint_t outpoint;
+	hash_t addr;
+}input_tin;
+
+typedef struct outpoint{
+	hash_t tx_id;
+	int idx;
+}outpoint_t;
+
+
+
+
+n_tx_in (valor entero correspondiente a la CANTIDAD DE INPUTS)
+tx_id1 idx1 addr1
+tx_id2 idx2 addr2
+.
+.
+.
+.
+.(desde 2 hasta n_tx_in + 1: inputs (los 3 campos (mismos que el struct) separados por un espacio))
+n_tx_out (entero correspondiente a la CANTIDAD DE OUTPUTS)
+value1 addr1
+value2 addr2
+.
+.
+.(idem que antes, pero ahora cada línea es un output)
