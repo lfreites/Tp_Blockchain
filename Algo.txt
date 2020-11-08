@@ -1,0 +1,1 @@
+Aca vamos poniendo aclaraciones, o comentarios sobre lo que vamos haciendo en el codigo.
