@@ -7,7 +7,13 @@
 
 
 
-
+//
+//Prueba de funcionamiento de lectura de archivo con transacciones, almacenamiento de la información de dichas
+//transacciones y posterior escritura de esa información.
+//
+//En principio sólo aplica a un archivo con una única transacción, habría que modificarlo (algo tipo while (!EOF))
+//para que opere a lo largo de todo el archivo y guarde cuantas transacciones haya en él.
+//
 int main(int argc, char const *argv[]){
 	
 
