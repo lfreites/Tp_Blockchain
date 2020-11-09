@@ -1,4 +1,5 @@
 #include "input.h"
+#include <string>
 
 Input::Input(hash_t id, int index, hash_t adress){
 	outpoint.tx_id = id;
@@ -28,6 +29,7 @@ int Input::getIndex(){
 hash_t Input::getAddress(){
 	return addr;
 }
+
 
 Input *obtenerInput(std::string data){
 	int i = 0;	

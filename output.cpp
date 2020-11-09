@@ -1,4 +1,5 @@
 #include "output.h"
+#include <string>
 
 Input::Output(int val, hash_t adress){
 	value = val;
@@ -8,6 +9,7 @@ Input::Output(int val, hash_t adress){
 Input::~Output(){
 }
 
+<<<<<<< HEAD
 double Output::getValue(){
 	return value;
 }

@@ -14,7 +14,7 @@ public:
 
 	//getters
 	double getValue();
-	hash_t getAdress();
+	hash_t getAdress
 };
 
 
