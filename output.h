@@ -10,17 +10,18 @@ private:
 	hash_t addr;
 
 public:
-	Output(double val, hash_t adress);
+	Output();
+	Output(double val, hash_t address);
 	~Output();
 
 	//getters
 	double getValue();
-	hash_t getAdress();
+	hash_t getAddress();
 };
 
 
 Output *obtenerOutput(std::string data);
-//devuelve un puntero a output a partir de de una cadena de texto (data) con los parámetros del output.
+//devuelve un puntero a output a partir del parseo de una cadena de texto (data) con los parámetros del output.
 //En caso de la cadena ser errónea devuelve puntero a NULL.
 //
 

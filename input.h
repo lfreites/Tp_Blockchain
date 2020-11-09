@@ -19,6 +19,7 @@ private:
 	hash_t addr;
 
 public:
+	Input();
 	Input(hash_t id, int index, hash_t adress);
 	~Input();
 
