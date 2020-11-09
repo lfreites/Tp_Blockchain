@@ -1,6 +1,9 @@
-
 #ifndef INPUT_H
 #define INPUT_H 
+
+#include "utils.h"
+
+
 
 struct outpoint{
 	hash_t tx_id;

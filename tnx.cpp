@@ -1,19 +1,20 @@
 #include "tnx.h"
-#include <ifstream>
-#include <ofstream>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "input.h"
 #include "output.h"
 
 
 struct transaccion{
 	size_t n_tx_in;
-	input_t **inputs;
+	Input **inputs;
 	size_t n_tx_out;
-	output_t **outputs;
+	Output **outputs;
 };
 
 
-bool transaccion_leer(transaccion_t * tnx, ifstream *tnx_in){
+bool transaccion_leer(transaccion_t * tnx, ifstream tnx_in){
 	//
 	//
 	//Lee primero la cantidad n_tx_in de inpunts de la transacción y luego procesa y guarda los n_tx_in inputs
@@ -57,7 +58,7 @@ bool transaccion_leer(transaccion_t * tnx, ifstream *tnx_in){
 
 
 
-void transaccion_escribir(transaccion_t *tnx, ofstream *tnx_out){
+void transaccion_escribir(transaccion_t *tnx, ofstream tnx_out){
 	tnx_out << tnx->n_tx_in << endl;
 	for (int i = 0; i < tnx->n_tnx_in; i++){
 		tnx_out << tnx->inputs[i]->getTnxId() << " " \
