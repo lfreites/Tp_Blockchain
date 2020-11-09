@@ -10,7 +10,7 @@ Input::~Input(){
 }
 
 
-Input *Input::obtenerInput(std::string data){
+Input *obtenerInput(std::string data){
 	int i = 0;	
 
 	hash_t id = data.substr(0, 64);			//guardo el hash de la tnx de la que el input toma fondos
