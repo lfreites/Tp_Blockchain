@@ -1,5 +1,7 @@
 #include "tnx.h"
 #include <ifstream>
+#include <ofstream>
+
 
 struct transaccion{
 	size_t n_tx_in;
@@ -53,6 +55,15 @@ bool transaccion_leer(transaccion_t * tnx, ifstream *tnx_in){
 
 
 
-FILE * transaccion_escribir(transaccion_t *tnx){
+void transaccion_escribir(transaccion_t *tnx, ofstream *tnx_out){
+	tnx_out << tnx->n_tx_in << endl;
+	for (int i = 0; i < tnx->n_tnx_in; i++){
+		tnx_out << tnx->inputs[i]->getTnxId() << " " \
+				<< tnx->inputs[i]->getIndex() << " " \
+				<< tnx->inputs[i]->getAddress() << endl;			
+	}
 
+	tnx_out << tnx->n_tx_out << endl;
+	for (int i = 0; i < tnx->n_tnx_out; i++)
+		tnx_out << tnx->outputs[i]->getValue() << " " << tnx->outputs[i]->getAddress() << endl;
 }

@@ -18,15 +18,18 @@ private:
 public:
 	Input(hash_t id, int index, hash_t adress);
 	~Input();
-	Input *obtenerInput(std::string data);
+
+	//getters
+	outpoint_t *getOutpoint();
+	hash_t getTnxId();
+	int getIndex();
+	hash_t getAddress();
+};
+
+
+Input *obtenerInput(std::string data);
 	//devuelve un puntero a input a partir de de una cadena de texto (data) con los parámetros del input.
 	//En caso de la cadena ser errónea devuelve puntero a NULL.
 	//
-
-	/*
-	getters
-	*/
-
-};
 
 #endif	//INPUT_H

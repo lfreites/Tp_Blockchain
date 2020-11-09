@@ -11,6 +11,8 @@ bool transaccion_leer(transaccion_t * tnx, ifstream *tnx_in);
 //y guarda toda su data en la transaccion. En caso de que no esté bien definido el archivo devuelve false,
 //si todo sale ok (los inputs, outputs y las cantidades de ambos son correctos) devuelve true
 
-FILE * transaccion_escribir(transaccion_t *tnx);
+void transaccion_escribir(transaccion_t *tnx, ofstream *tnx_out);
+//Vuelca en un archivo de salida apuntado por tnx_out los datos correspondientes a la transacción apuntada
+//por tnx en el formato correspondiente
 
 #endif	//TRANSACCION_H

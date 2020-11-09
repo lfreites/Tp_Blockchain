@@ -9,8 +9,27 @@ Input::Input(hash_t id, int index, hash_t adress){
 Input::~Input(){
 }
 
+outpoint_t *Input::getOutpoint(){
+	outpoint_t *outpnt = new outpoint_t;
+	outpnt->tx_id = this->outpoint.tx_id;
+	outpnt->idx = this->outpoint.idx;
 
-Input *Input::obtenerInput(std::string data){
+	return outpnt;
+}
+
+hash_t Input::getTnxId(){
+	return outpoint.tx_id;
+}
+
+int Input::getIndex(){
+	return outpoint.idx;
+}
+
+hash_t Input::getAddress(){
+	return addr;
+}
+
+Input *obtenerInput(std::string data){
 	int i = 0;	
 
 	hash_t id = data.substr(0, 64);			//guardo el hash de la tnx de la que el input toma fondos
