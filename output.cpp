@@ -1,22 +1,22 @@
 #include "output.h"
 
-Input::Input(int val, hash_t adress){
+Input::Output(int val, hash_t adress){
 	value = val;
 	addr = adress;
 }
 
-Input::~Input(){
+Input::~Output(){
 }
 
-double Input::getValue(){
+double Output::getValue(){
 	return value;
 }
 
-hash_t Input::getAdress(){
+hash_t Output::getAdress(){
 	return addr;
 }
 
-Output *Output::obtenerOutput(std::string data){
+Output *obtenerOutput(std::string data){
 	int i = 0;
 	while (data[i] != " ")					//incremento i hasta el próximo espacio
 		i++;
