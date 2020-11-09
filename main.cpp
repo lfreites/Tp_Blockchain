@@ -22,13 +22,15 @@ int main(int argc, char const *argv[]){
 		return -1;
 	}
 	transaccion_mostrar(transaccion);
-	
+
 	ofstream salida;
 	salida.open("salida.txt");
 	transaccion_escribir(transaccion, salida);
 
 	salida.close();
 	aux.close();
+
+	transaccion_destruir(transaccion);
 
 	return 0;
 }

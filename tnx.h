@@ -31,4 +31,7 @@ void transaccion_escribir(transaccion_t *tnx, ofstream &tnx_out);
 void transaccion_mostrar(transaccion_t *tnx);
 
 
+void transaccion_destruir(transaccion_t *tnx);
+
+
 #endif	//TRANSACCION_H

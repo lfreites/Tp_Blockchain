@@ -90,3 +90,15 @@ void transaccion_mostrar(transaccion_t *tnx){
 		cout << tnx->outputs[i]->getValue() << ' ' << tnx->outputs[i]->getAddress() << endl; 
 	cout << endl;
 }
+
+void transaccion_destruir(transaccion_t *tnx){
+	for (size_t i = 0; i < tnx->n_tx_in; i++)
+		delete tnx->inputs[i];
+	delete[] tnx->inputs;
+
+	for (size_t i = 0; i < tnx->n_tx_out; i++)
+		delete tnx->outputs[i];
+	delete[] tnx->outputs;
+
+	delete tnx;
+}
