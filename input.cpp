@@ -1,4 +1,5 @@
 #include "input.h"
+#include <string>
 
 Input::Input(hash_t id, int index, hash_t adress){
 	outpoint.tx_id = id;
