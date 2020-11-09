@@ -1,6 +1,8 @@
 #include "tnx.h"
 #include <ifstream>
 #include <ofstream>
+#include "input.h"
+#include "output.h"
 
 
 struct transaccion{
