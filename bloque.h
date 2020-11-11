@@ -9,7 +9,7 @@ private:
 	uint bits;
 	uint nonce;
 	size_t txn_count;
-	transaccion_t *transacciones;
+	List<transaccion_t> *transacciones;
 public:
 	Bloque();
 	~Bloque();
@@ -21,7 +21,7 @@ public:
 	uint nonce();
 	size_t cantidadTxns();
 
-	void txnsAppend(transaccion_t *tnx);
+	void txnsAppend(transaccion_t &tnx);
 }
 
 #endif //BLOQUE_H
