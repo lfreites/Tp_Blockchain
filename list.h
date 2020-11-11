@@ -66,9 +66,9 @@ Node<T> *List<T> ::getLast(){
 
 template <typename T>
 Node<T> * List<T> ::get(size_t index){
-	if (index > n)
+	if (index >= n)
 		return NULL;
-	else if (index == n)
+	else if (index == n - 1)
 		return last;
 	
 	size_t i = 0
