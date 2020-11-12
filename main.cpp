@@ -6,6 +6,8 @@
 #include "output.h"
 #include "cmdline.h"
 
+#include "sha256.h"
+
 #define MSG_ERR_OPEN_FILE "Error al abrir el archivo "
 #define DEFAULT_DIFICULTY 2
 
@@ -21,7 +23,6 @@ static option_t options[] = {
 };
 
 static string input;
-//static ifstream input;
 
 static int dificulty;
 
@@ -56,7 +57,7 @@ static void opt_input_d(string const &arg)
 		}
 	}
 
-	cout << "Dificulty set to : " << dificulty << endl;
+	//cout << "Dificulty set to : " << dificulty << endl;
 }
 
 
@@ -103,4 +104,16 @@ int main(int argc, char *argv[]){
 	transaccion_destruir(transaccion);
 
 	return 0;
+
+	string block = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+155dc94b29dce95bb2f940cdd2d7e0bce66dca9370c3ed96d50a30b3d84f8c4c
+3
+12232
+1
+1
+48df0779 2 d4cc51bb
+1
+250.5 842f33e9";
+
+	cout "El sha del block seria : " << sha256(block) << endl;
 }

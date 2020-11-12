@@ -1,4 +1,5 @@
 #include "bloque.h"
+#include "sha256.h"
 
 Bloque::Bloque(uint d){
 	prev_block = DEFAULT_PREV;
