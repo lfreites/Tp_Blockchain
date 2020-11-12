@@ -2,9 +2,9 @@
 #define UTILS_H
 
 #include <string>
-#include <sstream>
-#include <vector>
-#include <iostream>
+
+#define INIT_SIZE 50
+#define CHOP_SIZE 25
 
 using namespace std;
 
