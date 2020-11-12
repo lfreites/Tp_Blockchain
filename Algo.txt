@@ -81,3 +81,302 @@ value2 addr2
 .
 .
 .(idem que antes, pero ahora cada línea es un output)
+
+
+
+
+
+
+// Main con validaciones sobre streams
+//
+
+
+
+
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cstdlib>
+#include <vector>
+#include "sha256.h"
+#include "cmdline.h"
+
+#define MSG_ERR_OPEN_FILE "Error al abrir el archivo "
+#define DEFAULT_DIFICULTY 2
+
+using namespace std;
+
+typedef struct outpoint{
+	string tx_id;
+	int idx;
+}outpoint_t;
+
+typedef struct output{
+	int value;
+	string addr;	
+}output_t;
+
+typedef struct input{
+	outpoint_t outpoint;
+	string addr;
+}input_t;
+
+typedef struct transaccion{
+	size_t n_tx_in;
+	input_t *inputs;
+	size_t n_tx_out;
+	output_t *outputs;
+}transaccion_t;
+//Esto en realidad sería el formato del archivo, repetido tantas veces como transacciones almacene
+
+int wordCtr(string str){
+	
+    size_t NWords = str.empty() || str.back() == ' ' ? 0 : 1;
+    for (size_t s = str.size(); s > 0; --s)
+        if (str[s] == ' ' && str[s-1] != ' ') ++NWords;
+
+    //cout <<  "Numero de palabras de la linea" << NWords << endl;
+	return NWords;
+}
+
+inline bool isInteger(const string & s)
+{
+	if(s.empty() || ((!isdigit(s[0])) && (s[0] != '+'))) return false;
+
+	char * p;
+	strtol(s.c_str(), &p, 10);
+	//cout << "En funcion isInteger p es: " << p << endl;
+	return (*p == 0);
+}
+
+inline bool isFloat(const string &s) 
+{
+    std::istringstream iss(s);
+    float f;
+    iss >> noskipws >> f; // noskipws considers leading whitespace invalid
+    // Check the entire string was consumed and if either failbit or badbit is set
+    return iss.eof() && !iss.fail(); 
+}
+
+inline bool isInputCorrect(ifstream &in_stream, transaccion_t &tsx)
+{	
+	size_t number_inputs;
+	size_t cnt_words = 1;
+	size_t cnt_lines = 0;
+	string line;
+	string word;
+	//vector<vector<string>> in_params;
+	//vector<vector<string>> out_params;
+	vector<string> in_params; 
+
+	//Validando Inputs
+	getline(in_stream, line);
+	if (isInteger(line)){
+		number_inputs = atoi(line.c_str());
+		//cout << "Number of inputs: " << number_inputs << endl;
+	}
+	else
+	{	
+		cout << "Error - El parametro cantidad de inputs debe ser un entero positivo" << endl;
+		return false;
+	}
+
+	tsx.n_tx_in = number_inputs;
+
+	for(int i = 0; i < number_inputs; i++)
+	{	
+		getline(in_stream, line);
+		cnt_words = wordCtr(line);
+		
+		istringstream is(line);
+		string part;
+		while (getline(is, part, ','))
+  			cout << "Cada string de la linea: " << part << endl;
+
+		if(cnt_words != 3)
+		{
+			cout << "Error - La linea " << i + 1 << " de los inputs de la transaccion no tiene la cantidad de parametros requerida" << endl;
+			return false;
+		}
+		//cout << "Cantidad de words en line : " << cnt_words << endl;	
+		cnt_lines++;
+	}
+	//cout << "En el isInputCorrect contando cantidad de lineas por input  son: " << cnt_lines << endl;
+	if(cnt_lines != number_inputs)
+	{
+		cout << "Error - No coinciden la cantidad de inputs con el indice indicado" << endl;
+		return false;
+	}
+
+	cnt_lines = 0;
+
+	//Validando Outputs
+
+	getline(in_stream, line);
+	if (isInteger(line)){
+		number_inputs = atoi(line.c_str());
+		//cout << "Number of outputs: " << number_inputs << endl;
+	}
+	else
+	{	
+		cout << "Error - El parametro cantidad de outputs debe ser un entero positivo" << endl;
+		return false;
+	}
+	for(int i = 0; i < number_inputs; i++)
+	{	
+		getline(in_stream, line);
+		cnt_words = wordCtr(line);
+		if(cnt_words != 2)
+		{
+			cout << "Error - La linea " << i << " de los outputs de la transaccion no tiene la cantidad de parametros requerida" << endl;
+			return false;
+		}
+		//cout << "Cantidad de words en line : " << cnt_words << endl;	
+		cnt_lines++;
+	}
+	//cout << "En el isInputCorrect contando cantidad de lineas por output  son: " << cnt_lines << endl;
+	if(cnt_lines != number_inputs)
+	{
+		cout << "Error - No coinciden la cantidad de inputs con el indice indicado" << endl;
+		return false;
+	}
+
+	in_stream.clear();
+	return true;
+}
+
+bool parse_transaction(ifstream &in_stream, transaccion_t &tsx)
+{
+	string i_hash_1;
+	int i_idx;
+	string i_hash_2;
+	size_t params_in_tsx = 0;
+
+	if (in_stream.is_open()) {
+
+	if(isInputCorrect(in_stream))
+	{
+		cout << "Validate input returned true!" << endl;
+	}
+	else
+	{
+		cout << "Validate input returned false!" << endl;
+	}
+
+	// std::string line;
+	// std::getline(in_stream, line);
+	// if (isInteger(line)){
+	// 	tsx.n_tx_in = atoi(line.c_str());
+	// 	cout << "Tsx primer index es valido y es: " << tsx.n_tx_in << endl;
+	// }
+	// else
+	// {
+	// 	cout << "Primer parametro de la transaccion no es valido. Debe ser un numero positivo!" << endl;
+	// 	return false;
+	// }
+
+	// for(int i = 0; i < tsx.n_tx_in; i++)
+	// {
+	// 	while(std::getline(in_stream, line)){
+			
+	// 		std::istringstream iss(line);
+	// 		string item;
+	// 		std::getline(iss, item, ' ');
+	// 		cout << "Primer word que saca del tsx es: " << item << endl;
+	// 		params_in_tsx++;
+	// 	}
+	// }
+	
+	// while (std::getline(in_stream, line)) {
+	// 	// using printf() in all tests for consistency
+	// 	printf("%s\n", line.c_str());
+	// }
+	in_stream.close();
+	}
+	return true;
+}
+
+static void opt_input(string const &arg);
+static void opt_input_d(string const &arg);
+ 
+static option_t options[] = {
+	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
+	{1, "d", "dificulty", "-", opt_input_d, OPT_DEFAULT},
+	{0, }
+};
+
+static string input;
+//static ifstream input;
+
+static int dificulty;
+
+static void opt_input(string const &arg)
+{
+	if(arg == "-") {
+		cin >> input;
+	}
+	else{
+		std::stringstream in(arg);
+	    if(!in.good()){
+		    cerr << MSG_ERR_OPEN_FILE << arg << endl;
+		    exit(1);
+	    }
+		std::cout << "el sstringstream in es bueno..... hace in >> input...    arg es: " << arg << std::endl;
+		in >> input;
+	}
+}
+
+static void opt_input_d(string const &arg)
+{
+	if(arg == "-") {
+		dificulty = DEFAULT_DIFICULTY;
+	}
+	else{
+
+		dificulty = atoi(arg.c_str());
+		
+		if(dificulty <= 0)
+		{
+			cout << "Dificulty must be positive!!" << arg << endl;
+		}
+	}
+
+	cout << "Dificulty set to : " << dificulty << endl;
+}
+
+int main(int argc, char *argv[])
+{
+	transaccion_t tsx;
+	cmdline cmdl(options);
+	
+	cmdl.parse(argc, argv);
+
+	ifstream in_stream(input);
+
+	parse_transaction(in_stream, tsx);
+
+	//std::ifstream file(FILENAME);
+
+
+    // string output = sha256(input);
+    // cout << "input: " << input << endl;
+    // cout << "output: " << output << endl;
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+// size_t last = 0; size_t next = 0; 
+// while ((next = s.find(delimiter, last)) != string::npos) 
+// {   
+// 	cout << s.substr(last, next-last) << endl;   last = next + 1; 
+// } 
+// cout << s.substr(last) << endl;
