@@ -1,5 +1,4 @@
 #include "bloque.h"
-#include "utils.h"
 
 Bloque::Bloque(uint d){
 	prev_block = DEFAULT_PREV;

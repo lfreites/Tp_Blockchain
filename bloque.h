@@ -1,6 +1,8 @@
 #ifndef BLOQUE_H
 #define BLOQUE_H
 
+#include "utils.h"
+
 class Bloque{
 
 private:
