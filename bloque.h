@@ -1,7 +1,8 @@
 #ifndef BLOQUE_H
 #define BLOQUE_H
-
 #include "utils.h"
+#include "tnx.h"
+#include <vector>
 
 class Bloque{
 
@@ -11,19 +12,24 @@ private:
 	uint bits;
 	uint nonce;
 	size_t txn_count;
-	List<transaccion_t> *transacciones;
+	vector <transaccion_t *> * tnes;
 public:
 	Bloque();
+	Bloque(hash_t prev, hash_t ts_hash, uint d, uint n, size_t ts_count, vector <transaccion_t *> * ts);
 	~Bloque();
+	void bloque_escribir(ostream * os, void (*pf) (transaccion_t * tnx, ostream * os));
 
 	//getters
-	hash_t prevHash();
-	hash_t txnsHash();
-	uint bits();
-	uint nonce();
-	size_t cantidadTxns();
+	hash_t getPrevHash();
+	hash_t getTxnsHash();
+	uint getBits();
+	uint getNonce();
+	size_t getCantidadTxns();
 
-	void txnsAppend(transaccion_t &tnx);
-}
+	//setters
+	void setNonce(uint & nonce);
+
+	void txnsAppend(transaccion_t *tnx);
+};
 
 #endif //BLOQUE_H

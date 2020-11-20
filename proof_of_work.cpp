@@ -1,5 +1,7 @@
 #include "bloque.h"
 #include "utils.h"
+#include "sha256.h"
+#include "proof_of_work.h"
 
 map<char,uint> hexa = { {'0', 4},
 						{'1', 3},
@@ -21,14 +23,15 @@ map<char,uint> hexa = { {'0', 4},
 
 bool proof_of_work(Bloque &bloque){
 
-	uint i;
+	uint i, nonce;
 	hash_t hash;
 	uint bits_nulos_hash = 0;
+	nonce = bloque.getNonce();
 
-	while(bits_nulos_hash < bloque.bits()) {
+	while(bits_nulos_hash < bloque.getBits()) {
 
-		bloque -> nonce += 1;
-		hash = sha256(sha256((bloque.prev_block())+'\n'+(bloque.txns_hash())+'\n'+(to_string((bloque.bits())))+'\n'+(to_string(bloque->nonce()))+'\n'));
+		nonce += 1;
+		hash = sha256(sha256((bloque.getPrevHash())+'\n'+(bloque.getTxnsHash())+'\n'+(to_string((bloque.getBits())))+'\n'+(to_string(nonce))+'\n'));
 		bits_nulos_hash = 0;
 	
 		for(i = 0; hash[i] == '0' ; i++) {
@@ -39,6 +42,8 @@ bool proof_of_work(Bloque &bloque){
 		bits_nulos_hash += hexa[hash[i]];
 
 	}
+
+	bloque.setNonce(nonce);
 
 	return true;
 }

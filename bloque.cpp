@@ -1,43 +1,67 @@
 #include "bloque.h"
-#include "sha256.h"
 
-Bloque::Bloque(uint d){
-	prev_block = DEFAULT_PREV;
-	txns_hash = /*Completar con el doble sha256(...*/;
+
+Bloque::Bloque(){
+
+}
+
+Bloque::Bloque(hash_t prev, hash_t ts_hash, uint d, uint n, size_t ts_count, vector <transaccion_t *> * ts) {
+	prev_block = prev;
+	txns_hash = ts_hash;
 	bits = d;
-	nonce = ;
-	txns_count = 0;
-	transacciones = new List<transaccion_t>;
+	nonce = n;
+	txn_count = ts_count;
+	tnes = ts;
+
 }
 
 Bloque::~Bloque(){
-	delete transacciones
+
+}
+
+void Bloque::bloque_escribir(ostream * os, void (*pf) (transaccion_t * tnx, ostream * os)){
+
+	size_t i;
+
+	*os << prev_block << '\n' << txns_hash << '\n' << bits << '\n' << nonce << '\n' << txn_count << '\n';
+	for(i = 0; i < txn_count; i++){
+
+		(*pf)((*tnes)[i], os);
+	}
 }
 
 
 
 //getters
-hash_t Bloque::prevHash(){
+hash_t Bloque::getPrevHash(){
 	return prev_block;
 }
 
-hash_t Bloque::txnsHash(){
+hash_t Bloque::getTxnsHash(){
 	return txns_hash;
 }
 
-uint Bloque::bits(){
+uint Bloque::getBits(){
 	return bits;
 }
 
-uint Bloque::nonce(){
+uint Bloque::getNonce(){
 	return nonce;
 }
 
-size_t Bloque::cantidadTxns(){
-	return txns_count;
+size_t Bloque::getCantidadTxns(){
+	return txn_count;
 }
 
-void Bloque::txnsAppend(transaccion_t &tnx){
-	transacciones->append(txn);
-	txns_count++;
+//setters
+
+void Bloque::setNonce(uint & n){
+
+	nonce = n;
+}
+
+void Bloque::txnsAppend(transaccion_t *tnx){
+	//Para que sea eficiente habría que implementar el campo transacciones como una lista enlazada
+	//si no cada vez que queramos agregar una nueva transacción vamos a tener que crear un vector nuevo, 
+	//copiar todas las transacciones del que ya existe en el nuevo, borrar el viejo y finalmente agregar tnx.
 }

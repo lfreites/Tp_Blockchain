@@ -4,13 +4,13 @@
 #include "utils.h"
 
 
-struct outpoint_t{
-	
+
+struct outpoint{
 	hash_t tx_id;
 	int idx;
 };
 
-//typedef struct outpoint outpoint_t;
+typedef struct outpoint outpoint_t;
 
 
 class Input{	

@@ -1,30 +1,11 @@
-PROGRAM=tp
-CC=g++
-CFLAGS=-Wall -pedantic -g
+CARGS  = -g -Wall
+CFLAGS = -I. $(CARGS)
+CC = g++
 
+all: tp.exe
 
-all:$(PROGRAM)
-
-$(PROGRAM): main.o tnx.o input.o output.o cmdline.o sha256.o
-	$(CC) $(CFLAGS) -o $(PROGRAM) main.o tnx.o input.o output.o cmdline.o sha256.o  $(LDFLAGS) 
-
-main.o: main.cpp tnx.h input.h output.h
-	$(CC) $(CFLAGS) -c main.cpp
-
-tnx.o: tnx.cpp input.h output.h
-	$(CC) $(CFLAGS) -c tnx.cpp
-
-input.o: input.cpp input.h utils.h
-	$(CC) $(CFLAGS) -c input.cpp
-
-output.o: output.cpp output.h
-	$(CC) $(CFLAGS) -c output.cpp
-
-cmdline.o: cmdline.cc cmdline.h
-	$(CC) $(CFLAGS) -c cmdline.cc
-
-sha256.o: sha256.cpp sha256.h
-	$(CC) $(CFLAGS) -c sha256.cpp
+tp.exe: main.cc tnx.cpp input.cpp output.cpp cmdline.cc tnx.h input.h output.h cmdline.h utils.h proof_of_work.cpp sha256.cpp sha256.h bloque.cpp bloque.h proof_of_work.h
+	$(CC) $(CFLAGS) -o tp.exe main.cc tnx.cpp input.cpp output.cpp cmdline.cc proof_of_work.cpp sha256.cpp tnx.h input.h output.h cmdline.h utils.h sha256.h bloque.cpp bloque.h proof_of_work.h
 
 clean:
-	rm -vf  *.o $(PROGRAM)
+	$(RM) -vf *.o *.exe *.t *.out *.err

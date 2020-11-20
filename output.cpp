@@ -25,7 +25,7 @@ hash_t Output::getAddress(){
 
 Output *obtenerOutput(std::string data){
 	int i = 0;
-	while (data[i] != ' ')
+	while (data[i] != ' ')					//incremento i hasta el próximo espacio
 		i++;
 	double value = stod(data.substr(0, i));
 
@@ -34,5 +34,7 @@ Output *obtenerOutput(std::string data){
 	
 	Output *output = new Output(value, address);
 
+//	cout << '\n' << output << endl;
+//	cout << output->getValue() << endl << output->getAddress() << endl;
 	return output;
 }
