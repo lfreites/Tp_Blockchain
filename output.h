@@ -20,9 +20,5 @@ public:
 };
 
 
-Output *obtenerOutput(std::string data);
-//devuelve un puntero a output a partir del parseo de una cadena de texto (data) con los parámetros del output.
-//En caso de la cadena ser errónea devuelve puntero a NULL.
-//
 
 #endif	//OUTPUT_H

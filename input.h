@@ -30,10 +30,4 @@ public:
 	hash_t getAddress();
 };
 
-
-Input *obtenerInput(std::string data);
-	//devuelve un puntero a input a partir de de una cadena de texto (data) con los parámetros del input.
-	//En caso de la cadena ser errónea devuelve puntero a NULL.
-	//
-
 #endif	//INPUT_H

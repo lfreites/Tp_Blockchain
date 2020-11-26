@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "utils.h"
 
 
@@ -28,42 +29,57 @@ bool transaccion_leer(transaccion_t * tnx, istream * tnx_in){
 	//sea "borrada". En todo caso, que si se incluya o no en el bloque se decidirá dentro del aḿbito del flujo
 	//desde donde la llamamos, (básicaente para eso devuelve un booleano).
 	//
-	std::string aux;
+	std::string line;
 
 	//inputs
-	getline(*tnx_in, aux);
-
-	tnx->n_tx_in = stoi(aux);
+	(*tnx_in) >> line;
+	stringstream aux(line);
+	aux >> tnx->n_tx_in;
+	if(tnx->n_tx_in == 0)
+		return false;
 	Input **lista_i = new Input*[tnx->n_tx_in];
 	tnx->inputs = lista_i;
 
 	for (size_t i = 0; i < tnx->n_tx_in; i++){
-		std::string input_data;
-		getline(*tnx_in, input_data);				//guardo la línea donde está parado tnx_in
+		int index_data;
+		std::string hash_data;
+		std::string addr_data;
 
-		tnx->inputs[i] = obtenerInput(input_data);	//parseo la cadena y creo un puntero a input y lo meto en la lista
-		if (tnx->inputs[i] == NULL){
-			return false;
+		(*tnx_in) >> hash_data;				//guardo la línea donde está parado tnx_in
+
+		(*tnx_in) >> line;
+		stringstream aux2(line);
+		aux2 >> index_data;
+
+		(*tnx_in) >> addr_data;	
+
+		tnx->inputs[i] = new Input(hash_data, index_data, addr_data);
+	
 		}
-	}
 
 	//outputs
-	aux = "0";
-	getline(*tnx_in, aux);
+	(*tnx_in) >> line;
+	stringstream aux3(line);
+	aux3 >> tnx->n_tx_out;
 
-	tnx->n_tx_out = stoi(aux);
 	if(tnx->n_tx_out > tnx->n_tx_in)
 		return false;
+
 	Output **lista_o = new Output*[tnx->n_tx_out];
 	tnx->outputs = lista_o;
 
 	for (size_t i = 0; i < tnx->n_tx_out; i++){
-		std::string output_data;
-		getline(*tnx_in, output_data);				//guardo la línea donde está parado tnx_in
+		double value_data;
+		std::string addr_data;
 
-		tnx->outputs[i] = obtenerOutput(output_data);//parseo la cadena y creo un puntero a input y lo meto en la lista
-		if (tnx->outputs[i] == NULL)
-			return false;
+		(*tnx_in) >> line;
+		stringstream aux4(line);
+		aux4 >> value_data;
+
+		(*tnx_in) >> addr_data;			
+
+		tnx->outputs[i] = new Output(value_data, addr_data);
+		
 	}
 	return true;
 }
@@ -115,6 +131,11 @@ hash_t transaccion_hash(transaccion_t * tn){
 
 
 void transaccion_destruir(transaccion_t *tnx){
+
+	if(tnx->n_tx_in == 0){
+		delete tnx;
+		return;
+	}
 	for (size_t i = 0; i < tnx->n_tx_in; i++)
 		delete tnx->inputs[i];
 	delete[] tnx->inputs;

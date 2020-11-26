@@ -168,11 +168,21 @@ int main(int argc, char * const argv[]){
 		tnes[i] = transaccion_crear();
 
 		if(!transaccion_leer(tnes[i], iss)){
-			cerr << "error al leer" << endl;
-			for(j= 0; j < i; j++)
+			if(tnes[i]->n_tx_in != 0) {
+				cerr << "error al leer" << endl;
+				for(j= 0; j < i; j++)
+					transaccion_destruir(tnes[i]);
+				vector <transaccion_t *>().swap(tnes);
+				exit(1);
+
+			}
+
+			else {
+
 				transaccion_destruir(tnes[i]);
-			vector <transaccion_t *>().swap(tnes);
-			exit(1);
+				i -= 1;
+
+			}	
 		}
 	}
 
