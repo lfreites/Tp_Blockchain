@@ -6,13 +6,25 @@
 #include "utils.h"
 
 
+
 transaccion_t *transaccion_crear(){
 	transaccion_t *nueva = new transaccion_t;
-
 	nueva->n_tx_in = 0;
 	nueva->n_tx_out = 0;
 
 	return nueva;
+}
+
+
+transaccion_t * transaccion_genesis_crear(int value){
+	transaccion_t *genesis = transaccion_crear();
+
+	genesis->n_tx_in = 1;
+	*(genesis->inputs) = new Input(); //instancia un único input con valores nulos.
+	geneis->n_tx_out = 1;
+	*(genesis->outputs) = new Output(value, /*acá no entiendo qué dirección debería poner si todavía
+								no transferimos plata a ningun luggar*/);
+	return genesis;
 }
 
 

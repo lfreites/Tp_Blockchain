@@ -39,7 +39,6 @@ class Queue{
 		//Returns the amount of elements in the queue.
 		//Devuelve la cantidad de elementos en la cola.
 		//
-
 		void enqueue(T data);
 		//Appends an element data at the end of the queue.
 		//Agrega un elemento data al final de la cola
@@ -47,6 +46,9 @@ class Queue{
 		T dequeue();
 		//Pops the first element in the queue and returns it.
 		//Saca de la cola el primer elemento y lo devuevle
+		//
+		void clean();
+		//remove every element in the queue until it gets empty.
 		//
 	
 };
@@ -110,6 +112,12 @@ T Queue <T>::dequeue(){
 	delete aux;
 	_size--;
 	return data;
+}
+
+template <typename T>
+void Queue <T>::clean(){
+	while (!empty())
+		dequeue();
 }
 
 template <typename T>

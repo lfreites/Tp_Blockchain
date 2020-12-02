@@ -22,6 +22,8 @@ typedef struct transaccion transaccion_t;
 
 transaccion_t *transaccion_crear();
 
+transaccion_t *transaccion_genesis_crear(int value);
+
 hash_t transaccion_hash(transaccion_t * tn);
 
 bool transaccion_leer(transaccion_t * tnx, istream * tnx_in);
