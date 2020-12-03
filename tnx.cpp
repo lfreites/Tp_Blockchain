@@ -6,25 +6,30 @@
 #include "utils.h"
 
 
-
 transaccion_t *transaccion_crear(){
 	transaccion_t *nueva = new transaccion_t;
+
 	nueva->n_tx_in = 0;
 	nueva->n_tx_out = 0;
 
 	return nueva;
 }
 
+transaccion_t * transaccion_genesis_crear(double value, hash_t user, hash_t genesis){
 
-transaccion_t * transaccion_genesis_crear(int value){
-	transaccion_t *genesis = transaccion_crear();
+	transaccion_t *nueva = new transaccion_t;
 
-	genesis->n_tx_in = 1;
-	*(genesis->inputs) = new Input(); //instancia un único input con valores nulos.
-	geneis->n_tx_out = 1;
-	*(genesis->outputs) = new Output(value, /*acá no entiendo qué dirección debería poner si todavía
-								no transferimos plata a ningun luggar*/);
-	return genesis;
+	nueva->n_tx_in = 1;
+	nueva->n_tx_out = 1;
+
+	nueva -> inputs = new Input*[nueva->n_tx_in];
+	nueva -> outputs = new Output*[nueva->n_tx_out];
+
+	(nueva -> inputs)[0] = new Input(genesis, 0, genesis);
+	(nueva -> outputs)[0] = new Output(value, user);
+
+	return nueva;
+
 }
 
 
@@ -74,7 +79,7 @@ bool transaccion_leer(transaccion_t * tnx, istream * tnx_in){
 	stringstream aux3(line);
 	aux3 >> tnx->n_tx_out;
 
-	if(tnx->n_tx_out > tnx->n_tx_in)
+	if(tnx->n_tx_out == 0)
 		return false;
 
 	Output **lista_o = new Output*[tnx->n_tx_out];

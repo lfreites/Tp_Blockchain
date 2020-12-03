@@ -18,6 +18,8 @@ public:
 	Bloque(hash_t prev, hash_t ts_hash, uint d, uint n, size_t ts_count, vector <transaccion_t *> * ts);
 	~Bloque();
 	void bloque_escribir(ostream * os, void (*pf) (transaccion_t * tnx, ostream * os));
+	hash_t bloque_hash(hash_t (*pf) (transaccion_t * tnx));
+	void bloque_destruir(void (*pf) (transaccion_t * tnx));
 
 	//getters
 	hash_t getPrevHash();
@@ -25,6 +27,7 @@ public:
 	uint getBits();
 	uint getNonce();
 	size_t getCantidadTxns();
+	vector <transaccion_t *> * getTnes();
 
 	//setters
 	void setNonce(uint & nonce);

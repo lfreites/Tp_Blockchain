@@ -19,6 +19,15 @@ Bloque::~Bloque(){
 
 }
 
+void Bloque::bloque_destruir(void (*pf) (transaccion_t * tnx)){
+
+	for(size_t i = 0; i < txn_count; i++){
+		(*pf)((*tnes)[i]);
+	}
+
+	delete(tnes);
+}
+
 void Bloque::bloque_escribir(ostream * os, void (*pf) (transaccion_t * tnx, ostream * os)){
 
 	size_t i;
@@ -28,6 +37,20 @@ void Bloque::bloque_escribir(ostream * os, void (*pf) (transaccion_t * tnx, ostr
 
 		(*pf)((*tnes)[i], os);
 	}
+}
+
+hash_t Bloque::bloque_hash(hash_t (*pf) (transaccion_t * tnx)){
+
+	size_t i;
+	hash_t hash;
+
+	hash = prev_block + '\n' + txns_hash + '\n' + to_string(bits) + '\n' + to_string(nonce) + '\n' + to_string(txn_count) + '\n';
+	for(i = 0; i < txn_count; i++){
+
+		hash += (*pf)((*tnes)[i]);
+	}
+
+	return hash;
 }
 
 
@@ -58,6 +81,12 @@ size_t Bloque::getCantidadTxns(){
 void Bloque::setNonce(uint & n){
 
 	nonce = n;
+}
+
+vector <transaccion_t *> * Bloque::getTnes(){
+
+	return tnes;
+
 }
 
 void Bloque::txnsAppend(transaccion_t *tnx){

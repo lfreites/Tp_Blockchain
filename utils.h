@@ -12,6 +12,7 @@ typedef string hash_t;
 typedef unsigned int uint;
 
 const hash_t DEFAULT_PREV = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+const hash_t GENESIS_PREV = "0000000000000000000000000000000000000000000000000000000000000000";
 
 
 #endif //UTILS_H

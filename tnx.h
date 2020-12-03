@@ -22,9 +22,9 @@ typedef struct transaccion transaccion_t;
 
 transaccion_t *transaccion_crear();
 
-transaccion_t *transaccion_genesis_crear(int value);
-
 hash_t transaccion_hash(transaccion_t * tn);
+
+transaccion_t * transaccion_genesis_crear(double value, hash_t user, hash_t genesis);
 
 bool transaccion_leer(transaccion_t * tnx, istream * tnx_in);
 //Recibe un puntero a una transacción y un puntero a un fichero de entrada con la informacion de la transacción
